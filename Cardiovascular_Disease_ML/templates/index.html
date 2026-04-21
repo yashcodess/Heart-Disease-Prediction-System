@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Heart Disease Predictor</title>
+
+    <style>
+        body {
+            margin: 0;
+            font-family: 'Segoe UI', sans-serif;
+            background: radial-gradient(circle at top, #0f172a, #020617);
+            color: white;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 50px auto;
+            background: #0f172a;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 0 30px rgba(59,130,246,0.2);
+        }
+
+        h2 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-top: 15px;
+            color: #94a3b8;
+        }
+
+        input, select {
+            width: 100%;
+            padding: 10px;
+            margin-top: 5px;
+            border-radius: 6px;
+            border: none;
+            background: #020617;
+            color: white;
+        }
+
+        input:focus, select:focus {
+            outline: 1px solid #3b82f6;
+        }
+
+        button {
+            width: 100%;
+            padding: 12px;
+            margin-top: 20px;
+            border: none;
+            border-radius: 8px;
+            background: linear-gradient(90deg, #3b82f6, #8b5cf6);
+            color: white;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        .result {
+            margin-top: 20px;
+            padding: 15px;
+            border-radius: 8px;
+            text-align: center;
+            font-weight: bold;
+        }
+
+        .risk {
+            background: rgba(239,68,68,0.2);
+            color: #ef4444;
+        }
+
+        .safe {
+            background: rgba(34,197,94,0.2);
+            color: #22c55e;
+        }
+
+        .nav {
+            text-align: center;
+            margin-top: 15px;
+        }
+
+        .nav a {
+            color: #3b82f6;
+            text-decoration: none;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <h2>❤️ Heart Disease Prediction</h2>
+
+    <form action="/predict" method="POST">
+
+        <label>Age</label>
+        <input type="number" name="age" id="age" required>
+<small id="ageError" style="color:red; display:none;"></small>
+
+        <label>Sex</label>
+        <select name="sex">
+            <option value="1">Male</option>
+            <option value="0">Female</option>
+        </select>
+
+        <label>Chest Pain Type</label>
+        <select name="cp">
+            <option value="0">Typical Angina</option>
+            <option value="1">Atypical Angina</option>
+            <option value="2">Non-anginal Pain</option>
+            <option value="3">Asymptomatic</option>
+        </select>
+
+        <label>Resting Blood Pressure</label>
+        <input type="number" name="trestbps" id="bp" required>
+        <small id="bpError"></small>
+
+        <label>Cholesterol</label>
+        <input type="number" name="chol"id="chol" required>
+        <small id="cholError"></small>
+
+        <label>Fasting Blood Sugar</label>
+        <select name="fbs">
+            <option value="0">Less than or equal to 120 mg/dl</option>
+            <option value="1">Greater than 120 mg/dl</option>
+        </select>
+
+        <label>Rest ECG</label>
+        <select name="restecg">
+            <option value="0">Normal</option>
+            <option value="1">ST-T abnormality</option>
+            <option value="2">Left ventricular hypertrophy</option>
+        </select>
+
+        <label>Max Heart Rate</label>
+        <input type="number" name="thalach" id="hr" required>
+        <small id="hrError"></small>
+
+        <label>Exercise Induced Angina</label>
+        <select name="exang">
+            <option value="1">Yes</option>
+            <option value="0">No</option>
+        </select>
+
+        <label>Oldpeak</label>
+        <input type="number" step="0.1" name="oldpeak" min="0" max="10" required>
+
+        <label>Slope</label>
+        <select name="slope">
+            <option value="0">Upsloping</option>
+            <option value="1">Flat</option>
+            <option value="2">Downsloping</option>
+        </select>
+
+        <label>CA</label>
+        <input type="number" name="ca" min="0" max="4" required>
+
+        <label>Thal</label>
+        <select name="thal">
+            <option value="1">Normal</option>
+            <option value="2">Fixed Defect</option>
+            <option value="3">Reversible Defect</option>
+        </select>
+
+        <button type="submit">🔍 Predict</button>
+
+    </form>
+
+<script>
+document.querySelector("form").addEventListener("submit", function(e) {
+    const age = document.querySelector("[name='age']").value;
+
+    if (age < 1 || age > 120) {
+        alert("Age must be between 1 and 120");
+        e.preventDefault();
+    }
+});
+</script>
+
+    {% if prediction_text %}
+    <div class="result {% if 'Detected' in prediction_text %}risk{% else %}safe{% endif %}">
+        {{ prediction_text }}
+    </div>
+    {% endif %}
+
+    <div class="nav">
+        <a href="/history"><h2>📊 View Dashboard</h2></a>
+    </div>
+
+</div>
+<script>
+const age = document.getElementById("age");
+const bp = document.getElementById("bp");
+const chol = document.getElementById("chol");
+const hr = document.getElementById("hr");
+
+const ageError = document.getElementById("ageError");
+const bpError = document.getElementById("bpError");
+const cholError = document.getElementById("cholError");
+const hrError = document.getElementById("hrError");
+
+// 🔥 AGE
+age.addEventListener("input", () => {
+    if (age.value < 1 || age.value > 120) {
+        ageError.innerText = "Age must be between 1 to 120";
+        ageError.style.display = "block";
+    } else {
+        ageError.style.display = "none";
+    }
+});
+
+// 🔥 BP
+bp.addEventListener("input", () => {
+    if (bp.value < 80 || bp.value > 200) {
+        bpError.innerText = "BP must be between 80 to 200";
+        bpError.style.display = "block";
+    } else {
+        bpError.style.display = "none";
+    }
+});
+
+// 🔥 CHOLESTEROL
+chol.addEventListener("input", () => {
+    if (chol.value < 100 || chol.value > 600) {
+        cholError.innerText = "Cholesterol must be between 100 to 600";
+        cholError.style.display = "block";
+    } else {
+        cholError.style.display = "none";
+    }
+});
+
+// 🔥 HEART RATE
+hr.addEventListener("input", () => {
+    if (hr.value < 60 || hr.value > 220) {
+        hrError.innerText = "Heart Rate must be between 60 to 220";
+        hrError.style.display = "block";
+    } else {
+        hrError.style.display = "none";
+    }
+});
+
+// 🔥 FINAL FORM CHECK
+document.querySelector("form").addEventListener("submit", function(e) {
+
+    if (age.value < 1 || age.value > 120 ||
+        bp.value < 80 || bp.value > 200 ||
+        chol.value < 100 || chol.value > 600 ||
+        hr.value < 60 || hr.value > 220) {
+
+        e.preventDefault();
+        alert("Please fix input errors before submitting");
+    }
+
+});
+</script>
+
+
+
+</body>
+</html>
