@@ -3,13 +3,10 @@
 A Machine Learning based web application that predicts heart disease risk using patient health parameters.
 
 
-## Tech Stack
-- Python
-- Flask
-- Scikit-learn
-- Pandas
-- HTML / CSS / JavaScript
-- SQLite
+## 💻 Tech Stack
+![Python](https://img.shields.io/badge/Python-3.x-blue)
+![Flask](https://img.shields.io/badge/Flask-WebApp-green)
+![ML](https://img.shields.io/badge/MachineLearning-Enabled-orange)
   
 
 ## 📌 Project Overview
