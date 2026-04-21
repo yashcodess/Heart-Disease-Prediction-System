@@ -2,7 +2,15 @@
 
 A Machine Learning based web application that predicts heart disease risk using patient health parameters.
 
----
+
+## Tech Stack
+- Python
+- Flask
+- Scikit-learn
+- Pandas
+- HTML / CSS / JavaScript
+- SQLite
+  
 
 ## 📌 Project Overview
 
@@ -87,11 +95,12 @@ The system provides:
 
 ## 📷 Screenshots
 
-### Main Prediction Page
-![Home](Cardiovascular_Disease_ML/screenshot/home.PNG)
+<h3>Main Prediction Page</h3>
+<img src="Cardiovascular_Disease_ML/screenshot/home.PNG" width="700">
 
-### Dashboard
-![Dashboard](Cardiovascular_Disease_ML/screenshot/dashboard.png)
+<h3>Dashboard</h3>
+<img src="Cardiovascular_Disease_ML/screenshot/dashboard.png" width="700">
+
 
 ---
 
