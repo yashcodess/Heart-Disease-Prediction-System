@@ -88,10 +88,10 @@ The system provides:
 ## 📷 Screenshots
 
 ### Main Prediction Page
-(Add screenshot later)
+![Home](Cardiovascular_Disease_ML/screenshots/home.png)
 
 ### Dashboard
-(Add screenshot later)
+![Dashboard](Cardiovascular_Disease_ML/screenshots/dashboard.png)
 
 ---
 
